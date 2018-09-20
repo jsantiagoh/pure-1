@@ -37,6 +37,12 @@ __pure_set_default pure_root_color $pure_color_normal
 # Any other value defaults to the default behaviour
 __pure_set_default pure_user_host_location 0
 
+# Show exit code of last command as a separate prompt character. As described here: https://github.com/sindresorhus/pure/wiki#show-exit-code-of-last-command-as-a-separate-prompt-character
+# 0 - single prompt character, default
+# 1 - separate prompt character
+# Any other value defaults to the default behaviour
+__pure_set_default pure_separate_prompt_on_error 0
+
 # Max execution time of a process before its run time is shown when it exits
 __pure_set_default pure_command_max_exec_time 5
 
@@ -98,7 +104,7 @@ function pre_prompt --on-event fish_prompt
     # Check if there is an upstream configured
     command git rev-parse --abbrev-ref '@{upstream}' >/dev/null ^&1; and set -l has_upstream
     if set -q has_upstream
-      set -l git_status (string split ' ' (string replace -ar '\s+' ' ' (command git rev-list --left-right --count 'HEAD...@{upstream}')))
+      command git rev-list --left-right --count 'HEAD...@{upstream}' | read -la git_status
 
       set -l git_arrow_left $git_status[1]
       set -l git_arrow_right $git_status[2] 
@@ -144,6 +150,9 @@ function fish_prompt
   if test $exit_code -ne 0
     # Symbol color is red when previous command fails
     set color_symbol $pure_color_red
+    if test $pure_separate_prompt_on_error -eq 1
+      set color_symbol $pure_color_red$pure_symbol_prompt$pure_color_green
+    end
   end
 
   # Show python virtualenv name (if activated)
@@ -151,7 +160,10 @@ function fish_prompt
     set prompt $prompt $pure_color_gray(basename "$VIRTUAL_ENV")"$pure_color_normal "
   end
 
-  set prompt $prompt "$color_symbol$pure_symbol_prompt$pure_color_normal "
+  # vi-mode indicator
+  set mode_indicator (fish_default_mode_prompt)
+
+  set prompt $prompt "$mode_indicator$color_symbol$pure_symbol_prompt$pure_color_normal "
 
   echo -e -s $prompt
 
