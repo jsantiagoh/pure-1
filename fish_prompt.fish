@@ -61,7 +61,7 @@ function __kubernetes_context -d "Show the kubernetes context"
     if test "$ctx" = "docker-for-desktop"
         echo (set_color green)"$KUBECTL_PROMPT_ICON"(set_color normal)
     else
-        echo (set_color red)"$KUBECTL_PROMPT_ICON"(set_color normal)
+        echo (set_color red)"$KUBECTL_PROMPT_ICON"(set_color grey)" $ctx/$ns"(set_color normal)
     end
 end
 
