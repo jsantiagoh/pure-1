@@ -46,29 +46,6 @@ __pure_set_default pure_separate_prompt_on_error 0
 # Max execution time of a process before its run time is shown when it exits
 __pure_set_default pure_command_max_exec_time 5
 
-function __fish_right_prompt_vi_mode
-    # Do nothing if not in vi mode
-    if test "$fish_key_bindings" = "fish_vi_key_bindings"
-        or test "$fish_key_bindings" = "fish_hybrid_key_bindings"
-        switch $fish_bind_mode
-            case default
-                set_color green
-                echo '⒩'
-            case insert
-                # set_color --bold --background green white
-                # echo 'i'
-            case replace_one
-                set_color red
-                echo '⒭'
-            case visual
-                set_color blue
-                echo '⒱'
-        end
-        set_color normal
-        echo -n ''
-    end
-end
-
 function pre_prompt --on-event fish_prompt
   # Template
   set -l user_and_host ""
@@ -183,11 +160,10 @@ function fish_prompt
     set prompt $prompt $pure_color_gray(basename "$VIRTUAL_ENV")"$pure_color_normal "
   end
 
-  # set prompt $prompt (__kubernetes_context)" "
-  
-  # vi-mode indicator
-  # set mode_indicator (fish_default_mode_prompt)
-  set mode_indicator (__fish_right_prompt_vi_mode)
+  set -l kub_ctx (__kubernetes_context)
+  if test -n "$kub_ctx"
+      set prompt $prompt "$kub_ctx "
+  end
 
   set prompt $prompt "$mode_indicator$color_symbol$pure_symbol_prompt$pure_color_normal "
 
