@@ -17,22 +17,24 @@ Via [cURL](https://curl.haxx.se):
 
 ```sh
 # Download the installer to `/tmp`
-curl -Ls https://raw.github.com/rafaelrinaldi/pure/master/installer.fish > /tmp/pure_installer.fish
+curl -Ls https://raw.github.com/rafaelrinaldi/pure/master/tools/installer.fish > /tmp/pure_installer.fish
 # Source and trigger the installer
 source /tmp/pure_installer.fish; and install_pure
 ```
 
-### [Fisherman](https://fisherman.github.io)
+### [Fisher](https://github.com/jorgebucaran/fisher)
 
 ```fish
-fisher rafaelrinaldi/pure
+fisher add rafaelrinaldi/pure
 ```
 
 ### [Oh My Fish!](https://github.com/oh-my-fish)
 
 ```fish
 omf install pure
+ln -s $OMF_PATH/themes/pure/conf.d/pure.fish ~/.config/fish/conf.d/pure.fish
 ```
+:information_source: [why the symlink?](https://github.com/rafaelrinaldi/pure/wiki/Oh-My-Fish-not-currently-supporting-conf.d-snippets-in-plugins-and-themes)
 
 ### [Fundle](https://github.com/tuvistavie/fundle)
 
@@ -103,7 +105,7 @@ set pure_command_max_exec_time 5
 
     fishtape tests/*.test.fish
 
-Refer to [installer.md](./installer.md) to test the installer script.
+Refer to [tools/installer.md](./tools/installer.md) to test the installer script.
 
 ## Maintainers
 
