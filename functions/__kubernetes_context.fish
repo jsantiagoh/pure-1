@@ -23,7 +23,8 @@ function __kubernetes_context -d "Show the kubernetes context"
     case "minikube"
         echo (set_color green)"$KUBECTL_PROMPT_ICON"(set_color normal)
     case "docker-for-desktop"
-        echo (set_color blue)"$KUBECTL_PROMPT_ICON"(set_color normal)" $ctx"(set_color normal)
+        echo (set_color green)"$KUBECTL_PROMPT_ICON"(set_color normal)
+        # echo (set_color blue)"$KUBECTL_PROMPT_ICON"(set_color normal)" $ctx"(set_color normal)
     case '*'
         echo (set_color red)"$KUBECTL_PROMPT_ICON"(set_color normal)" $ctx/$ns"(set_color normal)
     end
